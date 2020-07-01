@@ -7,6 +7,7 @@ export default function useFirestoreDoc({query, data, deps, shouldExecute = true
     const dispatch = useDispatch();
 
     useEffect(() => {
+        if (!shouldExecute) return;
         dispatch(asyncActionStart());
         const unsubscribe = query().onSnapshot(
             snapshot => {

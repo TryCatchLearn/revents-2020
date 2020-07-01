@@ -15,7 +15,7 @@ export default function EventListItem({ event}) {
             <Item.Image size='tiny' circular src={event.hostPhotoURL} />
             <Item.Content>
               <Item.Header content={event.title} />
-              <Item.Description>Hosted by {event.hostedBy}</Item.Description>
+              <Item.Description>Hosted by <Link to={`/profile/${event.hostUid}`}>{event.hostedBy}</Link> </Item.Description>
               {event.isCancelled && (
                 <Label 
                   style={{top: '-40px'}}
