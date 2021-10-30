@@ -19,17 +19,18 @@ import {
   fetchEventsFromFirestore,
   dataFromSnapshot,
 } from '../../app/firestore/firestoreService';
+import { getDocs } from '@firebase/firestore';
 
 export function fetchEvents(filter, startDate, limit, lastDocSnapshot) {
   return async function (dispatch) {
     dispatch(asyncActionStart());
     try {
-      const snapshot = await fetchEventsFromFirestore(
+      const snapshot = await getDocs(fetchEventsFromFirestore(
         filter,
         startDate,
         limit,
         lastDocSnapshot
-      ).get();
+      ));
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
       const moreEvents = snapshot.docs.length >= limit;
       const events = snapshot.docs.map((doc) => dataFromSnapshot(doc));

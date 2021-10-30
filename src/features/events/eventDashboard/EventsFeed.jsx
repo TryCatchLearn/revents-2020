@@ -5,13 +5,14 @@ import { useEffect } from 'react';
 import { getUserFeedRef, firebaseObjectToArray } from '../../../app/firestore/firebaseService';
 import { listenToFeed } from '../../profiles/profileActions';
 import EventFeedItem from './EventFeedItem';
+import { onValue, off } from '@firebase/database';
 
 export default function EventsFeed() {
   const dispatch = useDispatch();
   const { feed } = useSelector((state) => state.profile);
 
   useEffect(() => {
-    getUserFeedRef().on('value', snapshot => {
+    onValue(getUserFeedRef(), snapshot => {
         if (!snapshot.exists()) {
             return;
         }
@@ -19,7 +20,7 @@ export default function EventsFeed() {
         dispatch(listenToFeed(feed))
     })
     return () => {
-        getUserFeedRef().off()
+        off(getUserFeedRef())
     }
   }, [dispatch])
 
